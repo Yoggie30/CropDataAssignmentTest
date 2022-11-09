@@ -49,10 +49,11 @@ class DashboardFragment : BaseFragment(), PlatformsAdapter.PlatformItemListener 
         val appContext = activity?.applicationContext
         adapter = PlatformsAdapter(this, appContext!!)
         binding.rvPlatforms.apply {
-            layoutManager = GridLayoutManager(
+            layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false
+            ) /*GridLayoutManager(
                 this.context, 2,
                 RecyclerView.HORIZONTAL, false
-            )
+            )*/
             setHasFixedSize(true)
         }
 
