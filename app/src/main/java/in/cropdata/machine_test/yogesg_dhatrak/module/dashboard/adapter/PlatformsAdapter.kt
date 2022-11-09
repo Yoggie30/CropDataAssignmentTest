@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PlatformsAdapter(
@@ -41,7 +43,7 @@ class PlatformsAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: PlatformsViewHolder, position: Int) =
-        holder.bind(items[position],appContext)
+        holder.bind(items[position], appContext)
 }
 
 class PlatformsViewHolder(
@@ -60,6 +62,9 @@ class PlatformsViewHolder(
     fun bind(item: PlatformDetailsModel, appContext: Context) {
         this.platform = item
         itemBinding.apply {
+            val androidColors = root.context.resources.getIntArray(R.array.androidcolors)
+            val randomAndroidColor = androidColors[Random().nextInt(androidColors.size)]
+            hospitalItemCard.setBackgroundColor(randomAndroidColor)
             titleTextView.text = item.name
             descriptionTextView.text = item.description
             Glide.with(appContext)
