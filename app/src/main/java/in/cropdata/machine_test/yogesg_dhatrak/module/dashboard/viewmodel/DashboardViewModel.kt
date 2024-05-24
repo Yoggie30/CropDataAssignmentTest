@@ -1,14 +1,22 @@
 package `in`.cropdata.machine_test.yogesg_dhatrak.module.dashboard.viewmodel
 
-import `in`.cropdata.machine_test.yogesg_dhatrak.base.BaseApplication
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformDetailsModel
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformsEntity
 import `in`.cropdata.machine_test.yogesg_dhatrak.data.repository.DashboardRepository
 import `in`.cropdata.machine_test.yogesg_dhatrak.utils.Resource
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.model.Platform
+import `in`.cropdata.machine_test.yogesg_dhatrak.module.dashboard.view.DashboardFragment
+import `in`.cropdata.machine_test.yogesg_dhatrak.module.dashboard.view.PlatformState
+import `in`.cropdata.machine_test.yogesg_dhatrak.utils.ResourceStatus
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -17,50 +25,40 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val repository: DashboardRepository
 ) : ViewModel() {
-    private val _platformList = MutableLiveData<List<PlatformDetailsModel>>()
-    val platformList: LiveData<List<PlatformDetailsModel>>
-        get() = _platformList
+    private val _platformList = MutableStateFlow(PlatformState())
+    val platformList: StateFlow<PlatformState> = _platformList
 
+    init {
+        getPlatformList()
+            .launchIn(viewModelScope)
+    }
 
-    fun getPlatformsList() =
-        viewModelScope.launch {
-            repository.fetchPlatformsListFromDB().collect {
-                _platformList.value = it
-            }
-        }
-
-    fun callPlatformsListAPI() =
-        liveData(Dispatchers.IO) {
-            emit(Resource.loading(data = null))
-            try {
-                emit(Resource.success(data = repository.getPlatformsListFromServer()))
-            } catch (exception: Exception) {
-                emit(
-                    Resource.error(
-                        data = null, message = exception.message
-                            ?: "Error Occurred!"
-                    )
+    private fun getPlatformList() = flow {
+        emit(ResourceStatus.Loading())
+        try {
+            emit(ResourceStatus.Success(data = repository.getPlatformList()))
+        } catch (exception: Exception) {
+            emit(
+                ResourceStatus.Error(
+                    data = null, message = exception.message
+                        ?: "Error Occurred!"
                 )
-            }
+            )
         }
+    }.onEach {
+        when (it) {
+            is ResourceStatus.Loading -> {
+                _platformList.value = PlatformState(isLoading = true)
+            }
+            is ResourceStatus.Error -> {
 
-    fun savePlatFormDataListToDB(platformsList: List<PlatformDetailsModel>) {
-        viewModelScope.launch {
-            try {
-                repository.savePlatFormDataListToDB(platformsList)
-            } catch (e: IOException) {
-                Timber.e("error ${e.message.toString()}")
+                _platformList.value = PlatformState(error = it.message)
+            }
+
+            is ResourceStatus.Success -> {
+                _platformList.value = PlatformState(data = it.data)
             }
         }
     }
 
-    fun deleteAllRecordsFromTable() {
-        viewModelScope.launch {
-            try {
-                repository.deleteAllRecords()
-            } catch (e: IOException) {
-                Timber.e("error ${e.message.toString()}")
-            }
-        }
-    }
 }

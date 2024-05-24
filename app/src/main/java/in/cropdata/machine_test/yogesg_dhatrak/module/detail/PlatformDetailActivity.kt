@@ -1,7 +1,6 @@
 package `in`.cropdata.machine_test.yogesg_dhatrak.module.detail
 
 import `in`.cropdata.machine_test.yogesg_dhatrak.R
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformDetailsModel
 import `in`.cropdata.machine_test.yogesg_dhatrak.databinding.ActivityPlatformDetailBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.model.Platform
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -23,9 +23,9 @@ class PlatformDetailActivity : AppCompatActivity() {
 
     private fun setUpComponents(binding: ActivityPlatformDetailBinding) {
         val gson = Gson()
-        val platformDetailsModel = gson.fromJson<PlatformDetailsModel>(
+        val platformDetailsModel = gson.fromJson<Platform>(
             intent.getStringExtra("platformData"),
-            PlatformDetailsModel::class.java
+            Platform::class.java
         )
         Timber.e("platformDetailsModel-->$platformDetailsModel")
         binding.apply {

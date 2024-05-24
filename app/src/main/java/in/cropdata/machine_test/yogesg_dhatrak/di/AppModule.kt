@@ -11,13 +11,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.local.PlatformsDao
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.repository.DashboardRepositoryImpl
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
 
     @Provides
     @Singleton
@@ -46,6 +47,8 @@ class AppModule {
     fun provideRepository(
         networkHelper: NetworkHelper,
         apiHelper: RetrofitInstance,
-        db: AppDatabase
-    ) = DashboardRepository(networkHelper, apiHelper, db)
+        db: PlatformsDao
+    ): DashboardRepository {
+        return DashboardRepositoryImpl(networkHelper,apiHelper, db)
+    }
 }

@@ -14,6 +14,6 @@ class DashboardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityDashboardBinding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.deleteAllRecordsFromTable()
+        //viewModel.deleteAllRecordsFromTable()
     }
 }

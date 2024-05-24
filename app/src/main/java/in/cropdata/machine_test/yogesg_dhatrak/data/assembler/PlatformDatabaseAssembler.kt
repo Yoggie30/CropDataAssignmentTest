@@ -1,21 +1,30 @@
 package `in`.cropdata.machine_test.yogesg_dhatrak.data.assembler
 
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformDetailsModel
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformsEntity
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.remote.model.PlatformDTO
 import `in`.cropdata.machine_test.yogesg_dhatrak.data.local.AppDatabase
 import android.annotation.SuppressLint
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.model.Platform
 import timber.log.Timber
 
+fun PlatformDTO.toPlatformModel(): Platform {
+    return Platform(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        iconURL = this.iconURL
+    )
+}
+/*
 object PlatformDatabaseAssembler {
     suspend fun savePlatFormDataToDB(
         appDatabase: AppDatabase?,
-        platforms: List<PlatformDetailsModel>
+        platforms: List<Platform>
     ) {
         if (appDatabase != null) {
-            val platformsEntityList = mutableListOf<PlatformsEntity>()
+            val platformsEntityList = mutableListOf<Platform>()
             platforms.map {
                 platformsEntityList.add(
-                    PlatformsEntity(
+                    Platform(
                         name = it.name,
                         iconURL = it.iconURL,
                         description = it.description
@@ -38,12 +47,12 @@ object PlatformDatabaseAssembler {
     }
 
     @SuppressLint("CheckResult")
-    fun assemblePlatformDetailsModelFromDB(appDatabase: AppDatabase?): List<PlatformDetailsModel> {
-        val platformsModelList = mutableListOf<PlatformDetailsModel>()
+    fun assemblePlatformDetailsModelFromDB(appDatabase: AppDatabase?): List<Platform> {
+        val platformsModelList = mutableListOf<Platform>()
         val list = appDatabase?.platformsDao()?.getAllPlatforms()
         if (!list.isNullOrEmpty()) {
             list.map {
-                val model = PlatformDetailsModel(
+                val model = Platform(
                     id = it.id,
                     name = it.name,
                     iconURL = it.iconURL,
@@ -56,4 +65,4 @@ object PlatformDatabaseAssembler {
         }
         return platformsModelList
     }
-}
+}*/

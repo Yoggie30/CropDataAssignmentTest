@@ -1,7 +1,6 @@
 package `in`.cropdata.machine_test.yogesg_dhatrak.module.dashboard.adapter
 
 import `in`.cropdata.machine_test.yogesg_dhatrak.R
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformDetailsModel
 import `in`.cropdata.machine_test.yogesg_dhatrak.databinding.LayoutItemPlatformBinding
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.model.Platform
 
 
 class PlatformsAdapter(
@@ -20,13 +20,13 @@ class PlatformsAdapter(
     RecyclerView.Adapter<PlatformsViewHolder>() {
 
     interface PlatformItemListener {
-        fun onClickedPlatform(platform: PlatformDetailsModel)
+        fun onClickedPlatform(platform: Platform)
     }
 
-    private val items = ArrayList<PlatformDetailsModel>()
+    private val items = ArrayList<Platform>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(items: ArrayList<PlatformDetailsModel>) {
+    fun setItems(items: ArrayList<Platform>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -50,14 +50,14 @@ class PlatformsViewHolder(
 ) : RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
 
-    private lateinit var platform: PlatformDetailsModel
+    private lateinit var platform: Platform
 
     init {
         itemBinding.root.setOnClickListener(this)
     }
 
     @SuppressLint("SetTextI18n")
-    fun bind(item: PlatformDetailsModel, appContext: Context) {
+    fun bind(item: Platform, appContext: Context) {
         this.platform = item
         itemBinding.apply {
             titleTextView.text = item.name

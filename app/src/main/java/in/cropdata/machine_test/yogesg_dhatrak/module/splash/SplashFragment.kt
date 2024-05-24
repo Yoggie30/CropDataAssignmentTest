@@ -17,9 +17,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class SplashFragment : BaseFragment() {
-
     private var binding: FragmentSplashBinding by autoCleared()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +43,6 @@ class SplashFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SplashFragment"
-        const val SPLASH_TIME_OUT: Long = 5000 // 5 sec
+        const val SPLASH_TIME_OUT: Long = 3000 // 3 sec
     }
 }

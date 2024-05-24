@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import `in`.cropdata.machine_test.yogesg_dhatrak.data.entities.PlatformsEntity
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.model.Platform
+import `in`.cropdata.machine_test.yogesg_dhatrak.data.remote.model.PlatformDTO
 
-@Database(entities = [PlatformsEntity::class], version = 1, exportSchema = false)
+@Database(entities = [Platform::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun platformsDao(): PlatformsDao
