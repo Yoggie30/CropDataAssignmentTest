@@ -9,7 +9,7 @@
     android:layout_marginStart="@dimen/margin_10"
     android:layout_marginEnd="@dimen/margin_10"
     android:layout_marginBottom="@dimen/margin_10"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/teal_200"
     app:cardCornerRadius="@dimen/margin_08"
     card_view:cardUseCompatPadding="true">
 

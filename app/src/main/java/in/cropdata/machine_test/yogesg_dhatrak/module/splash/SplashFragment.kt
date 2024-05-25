@@ -39,6 +39,7 @@ class SplashFragment : BaseFragment() {
                 R.id.action_splashFragment_to_dashboardFragment
             )
         }, SPLASH_TIME_OUT)
+
     }
 
     companion object {
